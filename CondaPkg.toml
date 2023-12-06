@@ -1,0 +1,7 @@
+channels = ["conda-forge"]
+
+[deps]
+dask = ""
+vaex = ""
+python = "=3.10"
+modin-all = ""
