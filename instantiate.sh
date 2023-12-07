@@ -1,27 +1,40 @@
 #!/usr/bin/env bash
 
+# Parse command line arguments
+# Ref: https://stackoverflow.com/questions/192249/how-do-i-parse-command-line-arguments-in-bash
+FORCE_RESOLVE="false"
+SKIP_INSTALL="false"
+SOURCE_DOTENV="true"
+# As long as there is at least one more argument, keep looping
+while [[ $# -gt 0 ]]; do
+  key="$1"
+  case "$key" in
+    -f|--force-resolve)
+    shift # past the key and to the value
+    FORCE_RESOLVE="$1"
+    ;;
+    -s|--skip-install)
+    shift # past the key and to the value
+    SKIP_INSTALL="$1"
+    ;;
+    -d|--source-dotenv)
+    shift # past the key and to the value
+    SOURCE_DOTENV="$1"
+    ;;
+    *)
+    # Do whatever you want with extra options
+    echo "Unknown option '$key'"
+    ;;
+  esac
+  # Shift after checking all the cases to get the next option
+  shift
+done
+
 # TODO
-# - pass `resolve_force`
 # - Windows PATH to posix path conversion when user use Git Bash
-resolve_force=false
+julia --project=. --startup-file=no --banner=no instantiate.jl "$FORCE_RESOLVE" "$SKIP_INSTALL"
 
-# shellcheck disable=SC2016
-julia --project=. --startup-file=no --banner=no -e '
-    using Pkg, CondaPkg
-    Pkg.instantiate()
-    # CondaPkg.resolve(; force=true)
-    CondaPkg.resolve(; force=${resolve_force})
-    CondaPkg.withenv() do
-        open(".env", "w") do io
-            println(io, "PATH=$(ENV["PATH"])")
-            println(io, "CONDA_PREFIX=$(ENV["CONDA_PREFIX"])")
-            println(io, "CONDA_DEFAULT_ENV=$(ENV["CONDA_DEFAULT_ENV"])")
-            println(io, "CONDA_SHLVL=$(ENV["CONDA_SHLVL"])")
-            println(io, "CONDA_PROMPT_MODIFIER=$(ENV["CONDA_PROMPT_MODIFIER"])")
-        end
-    end
-'
-
-# TODO: get conda command
-# conda_cmd=$(julia --project=. --startup-file=no --banner=no -e 'using CondaPkg; println(CondaPkg.conda_cmd(""))')
-# echo "${conda_cmd}"
+if [ "$SOURCE_DOTENV" ]; then
+  # shellcheck disable=SC1091
+  source .env
+fi
