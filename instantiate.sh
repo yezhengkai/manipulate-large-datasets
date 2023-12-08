@@ -30,9 +30,9 @@ while [[ $# -gt 0 ]]; do
   shift
 done
 
-# TODO
-# - Windows PATH to posix path conversion when user use Git Bash
-julia --project=. --startup-file=no --banner=no instantiate.jl "$FORCE_RESOLVE" "$SKIP_INSTALL"
+# On Windows, this scripts only support msys(Git Bash) or cygwin
+julia --project=. --startup-file=no instantiate.jl "$FORCE_RESOLVE" "$SKIP_INSTALL"
+
 
 if [ "$SOURCE_DOTENV" ]; then
   # shellcheck disable=SC1091
