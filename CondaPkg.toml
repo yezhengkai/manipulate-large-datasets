@@ -5,3 +5,6 @@ dask = ""
 vaex = ""
 python = "=3.10"
 modin-all = ""
+
+[pip.deps]
+datatable = ""
