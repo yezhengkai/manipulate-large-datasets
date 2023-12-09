@@ -1,10 +1,11 @@
 channels = ["conda-forge"]
 
 [deps]
+pandas = ""
 dask = ""
+polars = ""
+numpy = ""
 vaex = ""
 python = "=3.10"
 modin-all = ""
-
-[pip.deps]
-datatable = ""
+python-duckdb = ""
