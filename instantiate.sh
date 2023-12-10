@@ -3,7 +3,7 @@
 # Parse command line arguments
 # Ref: https://stackoverflow.com/questions/192249/how-do-i-parse-command-line-arguments-in-bash
 FORCE_RESOLVE="false"
-SOURCE_DOTENV="true"
+SOURCE_ENVRC="true"
 # As long as there is at least one more argument, keep looping
 while [[ $# -gt 0 ]]; do
   key="$1"
@@ -12,9 +12,9 @@ while [[ $# -gt 0 ]]; do
     shift # past the key and to the value
     FORCE_RESOLVE="$1"
     ;;
-    -d|--source-dotenv)
+    -d|--source-envrc)
     shift # past the key and to the value
-    SOURCE_DOTENV="$1"
+    SOURCE_ENVRC="$1"
     ;;
     *)
     # Do whatever you want with extra options
@@ -29,7 +29,7 @@ done
 julia --project=. --startup-file=no instantiate.jl "$FORCE_RESOLVE"
 
 
-if [ "$SOURCE_DOTENV" ]; then
+if [ "$SOURCE_ENVRC" ]; then
   # shellcheck disable=SC1091
-  source .env
+  source .envrc
 fi

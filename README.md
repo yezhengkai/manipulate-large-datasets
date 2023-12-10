@@ -6,7 +6,7 @@ Install Julia and Conda dependencies for the project
 source instantiate.sh
 ```
 ```shell
-source instantiate.sh --force-resolve false --source-dotenv true
+source instantiate.sh --force-resolve false --source-envrc true
 ```
 
 ## Datasets
