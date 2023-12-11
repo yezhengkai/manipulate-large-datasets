@@ -1,4 +1,4 @@
-# manipulate-larger-dataset
+# manipulate-large-dataset
 
 # Setup
 Install Julia and Conda dependencies for the project
